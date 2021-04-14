@@ -1,0 +1,4 @@
+id;username;nama;alamat;password;role
+1;adminserver;Admin Server;none;admin123;admin
+38070;thirafinajwan;Thirafi Najwan;Ehe;password123;user
+75844;something;Ken Watanabe;something;something;user
