@@ -1,4 +1,4 @@
-id;id_peminjam;id_gadget;tanggal_pengembalian
-12;38070;G1;23/10/2020
-153;75844;G4;23/10/2021
-185;75844;G20;23/10/1998
+id;id_peminjaman;tanggal_pengembalian
+12;1;23/10/2020
+153;2;23/10/2021
+185;3;23/10/1998
