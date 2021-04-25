@@ -1,4 +1,4 @@
-id;id_pengambil;id_consumable;tanggal_peminjaman;jumlah
+id;id_pengambil;id_consumable;tanggal_pengambilan;jumlah
 120;75844;C20;23/10/2001;20
 121;75844;C5;23/10/2004;21
 122;75844;C20;23/10/2001;22

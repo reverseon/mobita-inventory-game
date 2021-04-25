@@ -22,15 +22,6 @@ credalamat = ""
 credpw = ""
 credrole = ""
 
-
-# DB PROPERTIES NOTE
-# USER        : COL = 6 FROWLEN = 38
-# GADGET      : COL = 6 FROWLEN = 48
-# CONSUMABLES : COL = 5 FROWLEN = 32
-# G BORROW H  : COL = 5 FROWLEN = 51
-# G RETURN H  : COL = 5 FROWLEN = 46
-# CONS H      : COL = 4 FROWLEN = 38
-
 # GLOBAL VAR
 
 savefoldername = "savefolder" # WHERE VARIOUS SAVE FOLDER ARE STORED
@@ -49,6 +40,22 @@ def strike(text):
 
 def na():
     print("Not Available")
+
+def searchborrow(id, prop):
+    index = 0
+    for i in range(0, len(gbhdb[0])):
+        if gbhdb[0][i] == id:
+            index = i
+    if prop == "id_peminjam":
+        return gbhdb[1][index]
+    elif prop == "id_gadget":
+        return gbhdb[2][index]
+    elif prop == "tanggal_peminjaman":
+        return gbhdb[3][index]
+    elif prop == "jumlah":
+        return gbhdb[4][index]
+    else:
+        return gbhdb[5][index]
 
 def searchgadget(id, prop):
     index = 0
@@ -215,11 +222,11 @@ def grhsort():
     start = 0
     dblen = len(grhdb[0])
     while (start != dblen-1):
-        localmin = grhdb[3][start]
+        localmin = grhdb[2][start]
         lmid = start
         for i in range(start+1, dblen):
-            if whatfirst(localmin, grhdb[3][i]):
-                localmin = grhdb[3][i]
+            if whatfirst(localmin, grhdb[2][i]):
+                localmin = grhdb[2][i]
                 lmid = i
         for i in range(0, findcol("gadget_return_history")):
             temp = grhdb[i][lmid]
@@ -313,7 +320,7 @@ def riwayatpinjam(): # Gadget Borrow History (gbhdb)
                 print("ID Peminjaman:", gbhdb[0][i])
                 print("Nama Peminjam:", searchidcred(gbhdb[1][i], "nama"))
                 print("Nama Gadget:", searchgadget(gbhdb[2][i], "nama"))
-                print("Tanggal Peminjaman:", gbhdb[3][i])
+                print("Tanggal Pengambilan:", gbhdb[3][i])
                 print("Jumlah:", gbhdb[4][i])
                 holder = i
             print()
@@ -338,9 +345,9 @@ def riwayatkembali(): # GADGET RETURN HISTORY (grhdb)
             for i in range(page*5, page*5+5 if page*5+5 < row else row):
                 print()
                 print("ID Peminjaman:", grhdb[0][i])
-                print("Nama Peminjam:", searchidcred(grhdb[1][i], "nama"))
-                print("Nama Gadget:", searchgadget(grhdb[2][i], "nama"))
-                print("Tanggal Peminjaman:", grhdb[3][i])
+                print("Nama Peminjam:", searchidcred(searchborrow(grhdb[1][i], "id_peminjam"), "nama"))
+                print("Nama Gadget:", searchgadget(searchborrow(grhdb[1][i], "id_gadget"), "nama"))
+                print("Tanggal Pengembalian:", grhdb[2][i])
                 holder = i
             print()
             print(f"b for back, n for next, e for exit")
