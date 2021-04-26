@@ -37,7 +37,7 @@ credrole = ""
 # GLOBAL VAR
 
 savefoldername = "savefolder" # WHERE VARIOUS SAVE FOLDER ARE STORED
-savepath = os.path.dirname(os.path.realpath(__file__)) + "\\" + savefoldername # SAVE FOLDER THAT INCLUDES CSV ( WILL BE MODIFIED WHEN FIRST RUN IN LOAD() )
+savepath = os.path.join(os.path.dirname(os.path.realpath(__file__)), savefoldername) # SAVE FOLDER THAT INCLUDES CSV ( WILL BE MODIFIED WHEN FIRST RUN IN LOAD() )
 isExit = False # FOR EXIT
 targetfolder = "" # Tempat Folder Save
 
@@ -413,7 +413,7 @@ def load():
     global lrgrhdb 
     global lrchdb 
     targetfolder = readargs()
-    if not (os.path.exists(savepath)):
+    if not (os.path.exists(os.path.join(savepath, targetfolder))):
         print("File Save Tidak Tersedia, Silahkan Ulangi Program dengan Argumen yang Benar")
         exit() # EOF 1
     udb = unload("user")
