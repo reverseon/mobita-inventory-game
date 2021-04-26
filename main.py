@@ -43,7 +43,7 @@ targetfolder = "" # Tempat Folder Save
 
 # MISCELLANEOUS
 
-def strike(text):
+def strike(text): # 24
     result = ''
     for c in text:
         result = result + c + '\u0336'
@@ -51,10 +51,7 @@ def strike(text):
 
 # FUNDAMENTAL FUNCTION
 
-def na():
-    print("Not Available")
-
-def searchborrow(id, prop):
+def searchborrow(id, prop): #1
     index = 0
     for i in range(0, len(gbhdb[0])):
         if gbhdb[0][i] == id:
@@ -70,7 +67,7 @@ def searchborrow(id, prop):
     else:
         return gbhdb[5][index]
 
-def searchgadget(id, prop):
+def searchgadget(id, prop): #2
     index = 0
     for i in range(0, len(gdb[0])):
         if gdb[0][i] == id:
@@ -86,7 +83,7 @@ def searchgadget(id, prop):
     else:
         return gdb[5][index]
 
-def searchidcred(id, prop):
+def searchidcred(id, prop): #3
     index = 0
     for i in range(0, len(udb[0])):
         if udb[0][i] == id:
@@ -102,7 +99,7 @@ def searchidcred(id, prop):
     else:
         return udb[5][index]
 
-def searchcons(id, prop):
+def searchcons(id, prop): #4
     index = 0
     for i in range(0, len(cdb[0])):
         if cdb[0][i] == id:
@@ -116,7 +113,7 @@ def searchcons(id, prop):
     else:
         return cdb[4][index]
 
-def chooser(choice):
+def chooser(choice): #5
     if choice == "exit":
         yns = input("Apakah anda ingin save session ini? (Y/N): ")
         if (yns != "Y" and yns != "N"):
@@ -157,30 +154,30 @@ def chooser(choice):
     else:
         print("Fungsi tidak tersedia atau tidak ditemukan!")
 
-def getindex(target, col, db):
+def getindex(target, col, db): # 6
     for i in range(0, len(db[col])):
         if db[col][i] == target:
             return i
     return -1
 
-def findcol(name): # FIND COLUMN OF CSV
+def findcol(name): # FIND COLUMN OF CSV # 7
     with open(savepath + "\\" + targetfolder + "\\" + name + '.csv') as f:
         return f.readline().count(";") + 1
 
-def frl(name): # FIRST ROW LENGTH
+def frl(name): # FIRST ROW LENGTH # 8
     with open(savepath + "\\" + targetfolder + "\\" + name + '.csv') as f:
         return len(f.readline())
 
-def file_len(name):
+def file_len(name): # 9
     with open(savepath + "\\" + targetfolder + "\\" + name + '.csv') as f:
         for i, l in enumerate(f):
             pass
     return i + 1
 
-def getdb(name, mode):
+def getdb(name, mode): # 10
     return open(savepath + "\\" + targetfolder + "\\" + name + '.csv', mode)
 
-def unload(name):
+def unload(name): # 11
     db = getdb(name, 'r+').read()
     row = file_len(name) - 1 # minus col name
     holder = [[""]*row for i in range(0, findcol(name))]
@@ -196,13 +193,13 @@ def unload(name):
             holder[cc][rc] += db[i]
     return holder
 
-def readargs():
+def readargs(): # 12
     parser = argparse.ArgumentParser()
     parser.add_argument("folder", help="nama folder load")
     args = parser.parse_args()
     return args.folder
 
-def whatfirst(date1, date2): # is Date 1 duluan than Date 2
+def whatfirst(date1, date2): # is Date 1 duluan than Date 2 # 13
     d1 = int(date1[0:2])
     m1 = int(date1[3:5])
     y1 = int(date1[6:])
@@ -224,7 +221,7 @@ def whatfirst(date1, date2): # is Date 1 duluan than Date 2
             else:
                 return False
 
-def gbhsort():
+def gbhsort(): # 14
     global gbhdb
     start = 0
     dblen = len(gbhdb[0])
@@ -241,24 +238,7 @@ def gbhsort():
             gbhdb[i][start] = temp
         start += 1
 
-def gbhsort():
-    global gbhdb
-    start = 0
-    dblen = len(gbhdb[0])
-    while (start != dblen-1):
-        localmin = gbhdb[3][start]
-        lmid = start
-        for i in range(start+1, dblen):
-            if whatfirst(localmin, gbhdb[3][i]):
-                localmin = gbhdb[3][i]
-                lmid = i
-        for i in range(0, findcol("gadget_borrow_history")):
-            temp = gbhdb[i][lmid]
-            gbhdb[i][lmid] = gbhdb[i][start]
-            gbhdb[i][start] = temp
-        start += 1
-
-def grhsort():
+def grhsort(): # 15
     global grhdb
     start = 0
     dblen = len(grhdb[0])
@@ -275,7 +255,7 @@ def grhsort():
             grhdb[i][start] = temp
         start += 1
 
-def chsort():
+def chsort(): # 16
     global chdb
     start = 0
     dblen = len(chdb[0])
@@ -292,37 +272,37 @@ def chsort():
             chdb[i][start] = temp
         start += 1
 
-def random():
+def random(): # 17
     return (8121 * int(time.time()) + 28411) % 134456;
 
-def isalphanumberlower(uname):
+def isalphanumberlower(uname): # 18
     for i in uname:
         check = ord(i)
         if (((not (check >= 48 and check <= 57)) and (not (check >= 97 and check <= 122))) or check == 32): # 48 - 57 number, 97 - 122 lowercase, 32 space
             return False
     return True
 
-def isnumber(target):
+def isnumber(target): # 19
     for i in target:
         check = ord(i)
         if (not (check >= 48 and check <= 57)):
             return False
     return True
 
-def checkdup(val, col, arrdb):
+def checkdup(val, col, arrdb): # 20
     for i in arrdb[col]:
         if (val == i):
             return True
     return False
 
-def checkdir(name):
+def checkdir(name): # 21
     listdir = [a for a in os.listdir(savepath) if os.path.isdir(os.path.join(savepath, a))]
     for h in listdir:
         if h == name:
             return True
     return False
 
-def save():
+def save(): # 22
     savetarget = input("Masukkan nama folder penyimpanan: ")
     if not checkdir(savetarget):
         os.mkdir(savepath + "\\" + savetarget)
@@ -377,7 +357,7 @@ def save():
     print("Saving...")
     print(f"Data telah berhasil disimpan pada folder {savetarget}!")
 
-def isformatvalid(date):
+def isformatvalid(date): # 23
     if len(date) == 10:
         dd = date[0:2]
         mm = date[3:5]
