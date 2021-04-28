@@ -43,7 +43,7 @@ targetfolder = "" # Tempat Folder Save
 
 # MISCELLANEOUS
 
-def strike(text): # 24
+def strike(text): # 23
     result = ''
     for c in text:
         result = result + c + '\u0336'
@@ -116,10 +116,10 @@ def searchcons(id, prop): #4
 def chooser(choice): #5
     if choice == "exit":
         yns = input("Apakah anda ingin save session ini? (Y/N): ")
-        if (yns != "Y" and yns != "N"):
-            print("Pilihan Hanya Y atau N (harus kapital)")
+        if (yns != "Y" and yns != "N" and yns != "n" and yns != "y"):
+            print("Pilihan Hanya Y/y atau N/n")
             return
-        if (yns == "Y"):
+        if (yns == "Y" or yns == "y"):
             save()
         print("Terima Kasih Telah Bermain bersama Kantong Ajaib! Wishing You A Great Adventure Ahead!")
         exitpr()
@@ -302,62 +302,7 @@ def checkdir(name): # 21
             return True
     return False
 
-def save(): # 22
-    savetarget = input("Masukkan nama folder penyimpanan: ")
-    if not checkdir(savetarget):
-        os.mkdir(savepath + "\\" + savetarget)
-    # USER CSV
-    holderfile = open(savepath + "\\" + savetarget + "\\" + 'user.csv', 'w')
-    holderfile.write("id;username;nama;alamat;password;role\n")
-    for i in range(0, len(udb[0])):
-        for j in range(0, 5):
-            holderfile.write(udb[j][i] + ";")
-        holderfile.write(udb[5][i])
-        holderfile.write("\n")
-    # GADGET CSV
-    holderfile = open(savepath + "\\" + savetarget + "\\" + 'gadget.csv', 'w')
-    holderfile.write("id;nama;deskripsi;jumlah;rarity;tahun_ditemukan\n")
-    for i in range(0, len(gdb[0])):
-        for j in range(0, 5):
-            holderfile.write(gdb[j][i] + ";")
-        holderfile.write(gdb[5][i])
-        holderfile.write("\n")    
-    # CONSUMABLE CSV
-    holderfile = open(savepath + "\\" + savetarget + "\\" + 'consumable.csv', 'w')
-    holderfile.write("id;nama;deskripsi;jumlah;rarity\n")
-    for i in range(0, len(cdb[0])):
-        for j in range(0, 4):
-            holderfile.write(cdb[j][i] + ";")
-        holderfile.write(cdb[4][i])
-        holderfile.write("\n")
-    # GADGET RETURN HISTORY
-    holderfile = open(savepath + "\\" + savetarget + "\\" + 'gadget_return_history.csv', 'w')
-    holderfile.write("id;id_peminjaman;tanggal_pengembalian\n")
-    for i in range(0, len(grhdb[0])):
-        for j in range(0, 2):
-            holderfile.write(grhdb[j][i] + ";")
-        holderfile.write(grhdb[2][i])
-        holderfile.write("\n")
-    # GADGET BORROW HISTORY
-    holderfile = open(savepath + "\\" + savetarget + "\\" + 'gadget_borrow_history.csv', 'w')
-    holderfile.write("id;id_peminjam;id_gadget;tanggal_peminjaman;jumlah;is_returned\n")
-    for i in range(0, len(gbhdb[0])):
-        for j in range(0, 5):
-            holderfile.write(gbhdb[j][i] + ";")
-        holderfile.write(gbhdb[5][i])
-        holderfile.write("\n")
-    # CONSUMABLE HISTORY CSV
-    holderfile = open(savepath + "\\" + savetarget + "\\" + 'consumable_history.csv', 'w')
-    holderfile.write("id;id_pengambil;id_consumable;tanggal_pengambilan;jumlah\n")
-    for i in range(0, len(chdb[0])):
-        for j in range(0, 4):
-            holderfile.write(chdb[j][i] + ";")
-        holderfile.write(chdb[4][i])
-        holderfile.write("\n")
-    print("Saving...")
-    print(f"Data telah berhasil disimpan pada folder {savetarget}!")
-
-def isformatvalid(date): # 23
+def isformatvalid(date): # 22
     if len(date) == 10:
         dd = date[0:2]
         mm = date[3:5]
@@ -628,14 +573,14 @@ def hapusitem():
             index = getindex(itemid, 0, gdb)
             print(f"Apakah anda yakin ingin menghapus {searchgadget(itemid, 'nama')} (Y/N)? ")
             choose = input()
-            if choose == 'Y':
+            if (choose == 'Y' or choose == "y"):
                 for i in range(0, len(gdb)):
                     gdb[i].pop(index)
                 print("Item berhasil dihapus dari database")
-            elif choose == "N":
+            elif (choose == "N" or choose == "n"):
                 print("Proses Dibatalkan")
             else:
-                print("Pilihan tidak valid, hanya tersedia Y dan N (harus kapital)")
+                print("Pilihan tidak valid, hanya tersedia Y/y dan N/n")
     elif itemid[0] == "C":
         if not checkdup(itemid, 0, cdb):
              print("Tidak ada Item dengan ID tersebut")
@@ -643,14 +588,14 @@ def hapusitem():
             index = getindex(itemid, 0, cdb)
             print(f"Apakah anda yakin ingin menghapus {searchcons(itemid, 'nama')} (Y/N)? ")
             choose = input()
-            if choose == 'Y':
+            if (choose == 'Y' or choose == "y"):
                 for i in range(0, len(cdb)):
                     cdb[i].pop(index)
                 print("Item berhasil dihapus dari database")
-            elif choose == "N":
+            elif (choose == "N" or choose == "n"):
                 print("Proses Dibatalkan")
             else:
-                print("Pilihan tidak valid, hanya tersedia Y dan N (harus kapital)")
+                print("Pilihan tidak valid, hanya tersedia Y/y dan N/n")
     else:
         print("Tidak ada Item dengan ID tersebut")
 
@@ -826,7 +771,7 @@ def minta():
 
 def riwayatpinjam(): # Gadget Borrow History (gbhdb)
     if credrole == "admin":
-        if (grhdb[0] == []):
+        if (gbhdb[0] == []):
             print("Tidak ada data yang dapat ditampilkan")
             return
         gbhsort()
@@ -840,7 +785,6 @@ def riwayatpinjam(): # Gadget Borrow History (gbhdb)
                 print("Nama Gadget:", searchgadget(gbhdb[2][i], "nama"))
                 print("Tanggal Pengambilan:", gbhdb[3][i])
                 print("Jumlah:", gbhdb[4][i])
-                holder = i
             print()
             print(f"b for back, n for next, any string for exit")
             print(">>>", end=" ")
@@ -869,7 +813,6 @@ def riwayatkembali(): # GADGET RETURN HISTORY (grhdb)
                 print("Nama Peminjam:", searchidcred(searchborrow(grhdb[1][i], "id_peminjam"), "nama"))
                 print("Nama Gadget:", searchgadget(searchborrow(grhdb[1][i], "id_gadget"), "nama"))
                 print("Tanggal Pengembalian:", grhdb[2][i])
-                holder = i
             print()
             print(f"b for back, n for next, any string for exit")
             print(">>>", end=" ")
@@ -885,7 +828,7 @@ def riwayatkembali(): # GADGET RETURN HISTORY (grhdb)
 
 def riwayatambil(): # CONSUMABLE HISTORY (chdb)
     if credrole == "admin":
-        if (grhdb[0] == []):
+        if (chdb[0] == []):
             print("Tidak ada data yang dapat ditampilkan")
             return
         chsort()
@@ -899,7 +842,6 @@ def riwayatambil(): # CONSUMABLE HISTORY (chdb)
                 print("Nama Consumable:", searchcons(chdb[2][i], "nama"))
                 print("Tanggal Peminjaman:", chdb[3][i])
                 print("Jumlah:", chdb[4][i])
-                holder = i
             print()
             print(f"b for back, n for next, any string for exit")
             print(">>>", end=" ")
@@ -912,6 +854,61 @@ def riwayatambil(): # CONSUMABLE HISTORY (chdb)
                 break
     else:
         print("Maaf, Fitur Ini Hanya Bisa Diakses oleh Admin")
+
+def save():
+    savetarget = input("Masukkan nama folder penyimpanan: ")
+    if not checkdir(savetarget):
+        os.mkdir(savepath + "\\" + savetarget)
+    # USER CSV
+    holderfile = open(savepath + "\\" + savetarget + "\\" + 'user.csv', 'w')
+    holderfile.write("id;username;nama;alamat;password;role\n")
+    for i in range(0, len(udb[0])):
+        for j in range(0, 5):
+            holderfile.write(udb[j][i] + ";")
+        holderfile.write(udb[5][i])
+        holderfile.write("\n")
+    # GADGET CSV
+    holderfile = open(savepath + "\\" + savetarget + "\\" + 'gadget.csv', 'w')
+    holderfile.write("id;nama;deskripsi;jumlah;rarity;tahun_ditemukan\n")
+    for i in range(0, len(gdb[0])):
+        for j in range(0, 5):
+            holderfile.write(gdb[j][i] + ";")
+        holderfile.write(gdb[5][i])
+        holderfile.write("\n")    
+    # CONSUMABLE CSV
+    holderfile = open(savepath + "\\" + savetarget + "\\" + 'consumable.csv', 'w')
+    holderfile.write("id;nama;deskripsi;jumlah;rarity\n")
+    for i in range(0, len(cdb[0])):
+        for j in range(0, 4):
+            holderfile.write(cdb[j][i] + ";")
+        holderfile.write(cdb[4][i])
+        holderfile.write("\n")
+    # GADGET RETURN HISTORY
+    holderfile = open(savepath + "\\" + savetarget + "\\" + 'gadget_return_history.csv', 'w')
+    holderfile.write("id;id_peminjaman;tanggal_pengembalian\n")
+    for i in range(0, len(grhdb[0])):
+        for j in range(0, 2):
+            holderfile.write(grhdb[j][i] + ";")
+        holderfile.write(grhdb[2][i])
+        holderfile.write("\n")
+    # GADGET BORROW HISTORY
+    holderfile = open(savepath + "\\" + savetarget + "\\" + 'gadget_borrow_history.csv', 'w')
+    holderfile.write("id;id_peminjam;id_gadget;tanggal_peminjaman;jumlah;is_returned\n")
+    for i in range(0, len(gbhdb[0])):
+        for j in range(0, 5):
+            holderfile.write(gbhdb[j][i] + ";")
+        holderfile.write(gbhdb[5][i])
+        holderfile.write("\n")
+    # CONSUMABLE HISTORY CSV
+    holderfile = open(savepath + "\\" + savetarget + "\\" + 'consumable_history.csv', 'w')
+    holderfile.write("id;id_pengambil;id_consumable;tanggal_pengambilan;jumlah\n")
+    for i in range(0, len(chdb[0])):
+        for j in range(0, 4):
+            holderfile.write(chdb[j][i] + ";")
+        holderfile.write(chdb[4][i])
+        holderfile.write("\n")
+    print("Saving...")
+    print(f"Data telah berhasil disimpan pada folder {savetarget}!")
 
 def helpf():
     print("==========HELP==========")
