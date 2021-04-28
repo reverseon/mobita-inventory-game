@@ -3,6 +3,7 @@ import sys
 import math
 import time
 import argparse
+import datetime
 
 # DEVELOPER NOTE
 # FILE .CSV HARUS PUNYA 1 ROW KOSONG DI AKHIR FILE 
@@ -310,9 +311,11 @@ def isformatvalid(date): # 22
         if (not isnumber(dd) or not isnumber(mm) or not isnumber(yy)):
             return False
         else:
-            if ((1 > int(dd) or 31 < int(dd)) or (1 > int(mm) or 12 < int(mm))):
+            try:
+                datetime.datetime(year=int(yy), month=int(mm), day=int(dd))
+                return True
+            except:
                 return False
-            return True
     else:
         return False
 
@@ -499,7 +502,10 @@ def caritahun():
 def tambahitem():
     if credrole == "admin":
         itemid = input("Masukkan ID: ")
-        if itemid[0] == 'G':
+        if not (itemid[0] in ['G', 'C'] and isnumber(itemid[1:]) and int(itemid[1:]) > 0):
+            print("Format ID tidak Valid, id harus diawali G atau C diikuti dengan integer lebih dari nol")
+            return
+        elif itemid[0] == 'G':
             if checkdup(itemid, 0, gdb):
                 print("Gagal menambahkan item karena ID sudah ada")
                 return
@@ -530,7 +536,7 @@ def tambahitem():
             gdb[4].append(rarity)
             gdb[5].append(tahun)
             print("Item telah berhasil ditambahkan ke database")
-        elif itemid[0] == 'C':
+        else:
             if checkdup(itemid, 0, cdb):
                 print("Gagal menambahkan item karena ID sudah ada")
                 return
@@ -555,9 +561,7 @@ def tambahitem():
             cdb[2].append(deskripsi)
             cdb[3].append(jumlah)
             cdb[4].append(rarity)
-            print("Item telah berhasil ditambahkan ke database")
-        else:
-            print("Gagal Menambahkan Item karena ID tidak valid")    
+            print("Item telah berhasil ditambahkan ke database") 
     else:
         print("Maaf, Fitur Ini Hanya Bisa Diakses oleh Admin")
 
@@ -566,7 +570,10 @@ def hapusitem():
         print("Maaf, fitur ini hanya bisa diakses oleh admin, terima kasih.")
         return
     itemid = input("Masukkan Item ID: ")
-    if itemid[0] == "G":
+    if not (itemid[0] in ['G', 'C'] and isnumber(itemid[1:]) and int(itemid[1:]) > 0):
+        print("Format ID tidak Valid, id harus diawali G atau C diikuti dengan integer lebih dari nol")
+        return
+    elif itemid[0] == "G":
         if not checkdup(itemid, 0, gdb):
              print("Tidak ada Item dengan ID tersebut")
         else:
@@ -581,7 +588,7 @@ def hapusitem():
                 print("Proses Dibatalkan")
             else:
                 print("Pilihan tidak valid, hanya tersedia Y/y dan N/n")
-    elif itemid[0] == "C":
+    else:
         if not checkdup(itemid, 0, cdb):
              print("Tidak ada Item dengan ID tersebut")
         else:
@@ -596,15 +603,16 @@ def hapusitem():
                 print("Proses Dibatalkan")
             else:
                 print("Pilihan tidak valid, hanya tersedia Y/y dan N/n")
-    else:
-        print("Tidak ada Item dengan ID tersebut")
 
 def ubahjumlah():
     if (credrole == "user"):
         print("Maaf, fitur ini hanya bisa diakses oleh admin, terima kasih.")
         return
     itemid = input("Masukkan Item ID: ")
-    if itemid[0] == "G":
+    if not (itemid[0] in ['G', 'C'] and isnumber(itemid[1:]) and int(itemid[1:]) > 0):
+        print("Format ID tidak Valid, id harus diawali G atau C diikuti dengan integer lebih dari nol")
+        return
+    elif itemid[0] == "G":
         if not checkdup(itemid, 0, gdb):
              print("Tidak ada Item dengan ID tersebut")
         else:
@@ -622,7 +630,7 @@ def ubahjumlah():
             else:
                 print(f"{abs(alter)} {searchgadget(itemid, 'nama')} gagal dibuang karena stok kurang.")
                 print(f"Stok sekarang: {gdb[3][index]}")
-    elif itemid[0] == "C":
+    else:
         if not checkdup(itemid, 0, cdb):
              print("Tidak ada Item dengan ID tersebut")
         else:
@@ -640,15 +648,16 @@ def ubahjumlah():
             else:
                 print(f"{abs(alter)} {searchcons(itemid, 'nama')} gagal dibuang karena stok kurang.")
                 print(f"Stok sekarang: {cdb[3][index]}")
-    else:
-        print("Tidak ada Item dengan ID tersebut")
 
 def pinjam():
     if (credrole == "admin"):
         print("Maaf, fitur ini hanya bisa diakses oleh user, terima kasih.")
         return
     itemid = input("Masukkan Item ID: ")
-    if itemid[0] == "G":
+    if not (itemid[0] in ['G'] and isnumber(itemid[1:]) and int(itemid[1:]) > 0):
+        print("Format ID tidak Valid, id harus diawali G diikuti dengan integer lebih dari nol")
+        return
+    else:
         if not checkdup(itemid, 0, gdb):
              print("Tidak ada Item dengan ID tersebut")
         else:
@@ -676,8 +685,6 @@ def pinjam():
                 gbhdb[5].append("false")
             else:
                 print(f"Item {searchgadget(itemid, 'nama')} (x{alter}) gagal dipinjam karena stok kurang.")
-    else:
-        print("Tidak ada Item dengan ID tersebut (Consumables tidak dapat dipinjam)")    
 
 def kembalikan():
     if (credrole == "admin"):
@@ -734,7 +741,10 @@ def minta():
         print("Maaf, fitur ini hanya bisa diakses oleh user, terima kasih.")
         return
     itemid = input("Masukkan Item ID: ")
-    if itemid[0] == "C":
+    if not (itemid[0] in ['C'] and isnumber(itemid[1:]) and int(itemid[1:]) > 0):
+        print("Format ID tidak Valid, id harus diawali C diikuti dengan integer lebih dari nol")
+        return
+    elif itemid[0] == "C":
         if not checkdup(itemid, 0, cdb):
             print("Tidak ada Consumables dengan ID tersebut")
         else:
@@ -767,7 +777,7 @@ def minta():
             chdb[4].append(str(jumlah))
             print(f"Item {cdb[1][considx]} (x{jumlah}) telah berhasil diambil!")
     else:
-        print("Tidak ada Consumables dengan ID tersebut (Gadget tidak dapat diminta)")       
+        print("Tidak ada Consumables dengan ID tersebut")       
 
 def riwayatpinjam(): # Gadget Borrow History (gbhdb)
     if credrole == "admin":
