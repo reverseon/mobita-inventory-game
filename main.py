@@ -502,7 +502,7 @@ def caritahun():
 def tambahitem():
     if credrole == "admin":
         itemid = input("Masukkan ID: ")
-        if not (itemid[0] in ['G', 'C'] and isnumber(itemid[1:]) and int(itemid[1:]) > 0):
+        if len(itemid) == 1 or not (itemid[0] in ['G', 'C'] and len(itemid) == 1 and isnumber(itemid[1:]) and int(itemid[1:]) > 0):
             print("Format ID tidak Valid, id harus diawali G atau C diikuti dengan integer lebih dari nol")
             return
         elif itemid[0] == 'G':
@@ -570,7 +570,7 @@ def hapusitem():
         print("Maaf, fitur ini hanya bisa diakses oleh admin, terima kasih.")
         return
     itemid = input("Masukkan Item ID: ")
-    if not (itemid[0] in ['G', 'C'] and isnumber(itemid[1:]) and int(itemid[1:]) > 0):
+    if len(itemid) == 1 or not (itemid[0] in ['G', 'C'] and isnumber(itemid[1:]) and int(itemid[1:]) > 0):
         print("Format ID tidak Valid, id harus diawali G atau C diikuti dengan integer lebih dari nol")
         return
     elif itemid[0] == "G":
@@ -609,7 +609,7 @@ def ubahjumlah():
         print("Maaf, fitur ini hanya bisa diakses oleh admin, terima kasih.")
         return
     itemid = input("Masukkan Item ID: ")
-    if not (itemid[0] in ['G', 'C'] and isnumber(itemid[1:]) and int(itemid[1:]) > 0):
+    if len(itemid) == 1 or not (itemid[0] in ['G', 'C'] and isnumber(itemid[1:]) and int(itemid[1:]) > 0):
         print("Format ID tidak Valid, id harus diawali G atau C diikuti dengan integer lebih dari nol")
         return
     elif itemid[0] == "G":
@@ -654,7 +654,7 @@ def pinjam():
         print("Maaf, fitur ini hanya bisa diakses oleh user, terima kasih.")
         return
     itemid = input("Masukkan Item ID: ")
-    if not (itemid[0] in ['G'] and isnumber(itemid[1:]) and int(itemid[1:]) > 0):
+    if len(itemid) == 1 or not (itemid[0] in ['G'] and isnumber(itemid[1:]) and int(itemid[1:]) > 0):
         print("Format ID tidak Valid, id harus diawali G diikuti dengan integer lebih dari nol")
         return
     else:
@@ -741,7 +741,7 @@ def minta():
         print("Maaf, fitur ini hanya bisa diakses oleh user, terima kasih.")
         return
     itemid = input("Masukkan Item ID: ")
-    if not (itemid[0] in ['C'] and isnumber(itemid[1:]) and int(itemid[1:]) > 0):
+    if len(itemid) == 1 or not (itemid[0] in ['C'] and isnumber(itemid[1:]) and int(itemid[1:]) > 0):
         print("Format ID tidak Valid, id harus diawali C diikuti dengan integer lebih dari nol")
         return
     elif itemid[0] == "C":
