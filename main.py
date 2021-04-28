@@ -662,7 +662,7 @@ def pinjam():
             jumlah = int(searchgadget(itemid, "jumlah"))
             alter = input("Masukkan Jumlah: ")
             if (not isnumber(alter)):
-                print("Jumlah Peminjaman harus integer dan lebih dari nol")
+                print("Jumlah Peminjaman harus integer dan lebih dari atau sama dengan nol")
                 return
             alter = int(alter)
             if (jumlah - alter >= 0):
