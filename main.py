@@ -405,6 +405,9 @@ def register():
             idn = str(random())
     print("Masukan nama:", end=" ")
     nama = input()
+    if nama == "":
+        print("Nama tidak boleh kosong")
+        return
     print("Masukan username:", end=" ")
     uname = input()
     while (not (isalphanumberlower(uname) and (not checkdup(uname, 1, udb) and (len(uname) <= 16 and len(uname) > 0)))):
@@ -412,8 +415,13 @@ def register():
             uname = input()
     print("Masukan password:", end=" ")
     pw = input()
+    if pw == "":
+        print("Password tidak boleh kosong")
+        return
     print("Masukan alamat:", end=" ")
     alamat = input()
+    if alamat == "":
+        print("Alamat tidak boleh kosong")
     udb[0].append(idn)
     udb[1].append(uname)
     udb[2].append(nama)
@@ -452,50 +460,70 @@ def caritahun():
     kategori = input()
     print("\nHasil Pencarian:", end="\n\n")
     if (kategori == "="):
+        found = False
         for i in range(0, len(gdb[4])):
             if (int(gdb[5][i]) == int(tahun)):
+                found = True
                 print("Nama: " + gdb[1][i])
                 print("Deskripsi: " + gdb[2][i])
                 print("Jumlah: " + gdb[3][i] + " buah")
                 print("Rarity: " + gdb[4][i])
                 print("Tahun Ditemukan: " + gdb[5][i])
                 print()
+        if not found:
+            print("Tidak ada Gadget yang memenuhi kriteria")
     elif (kategori == ">"):
+        found = False
         for i in range(0, len(gdb[4])):
             if (int(gdb[5][i]) > int(tahun)):
+                found = True
                 print("Nama: " + gdb[1][i])
                 print("Deskripsi: " + gdb[2][i])
                 print("Jumlah: " + gdb[3][i] + " buah")
                 print("Rarity: " + gdb[4][i])
                 print("Tahun Ditemukan: " + gdb[5][i])
                 print()
+        if not found:
+            print("Tidak ada Gadget yang memenuhi kriteria")
     elif (kategori == "<"):
+        found = False
         for i in range(0, len(gdb[4])):
             if (int(gdb[5][i]) < int(tahun)):
+                found = True
                 print("Nama: " + gdb[1][i])
                 print("Deskripsi: " + gdb[2][i])
                 print("Jumlah: " + gdb[3][i] + " buah")
                 print("Rarity: " + gdb[4][i])
                 print("Tahun Ditemukan: " + gdb[5][i])
                 print()
+        if not found:
+            print("Tidak ada Gadget yang memenuhi kriteria")
     elif (kategori == "<="):
+        found = False
         for i in range(0, len(gdb[4])):
             if (int(gdb[5][i]) <= int(tahun)):
+                found = True
                 print("Nama: " + gdb[1][i])
                 print("Deskripsi: " + gdb[2][i])
                 print("Jumlah: " + gdb[3][i] + " buah")
                 print("Rarity: " + gdb[4][i])
                 print("Tahun Ditemukan: " + gdb[5][i])
                 print()
+        if not found:
+            print("Tidak ada Gadget yang memenuhi kriteria")
     elif (kategori == ">="):
+        found = False
         for i in range(0, len(gdb[4])):
             if (int(gdb[5][i]) >= int(tahun)):
+                found = True
                 print("Nama: " + gdb[1][i])
                 print("Deskripsi: " + gdb[2][i])
                 print("Jumlah: " + gdb[3][i] + " buah")
                 print("Rarity: " + gdb[4][i])
                 print("Tahun Ditemukan: " + gdb[5][i])
                 print()
+        if not found:
+            print("Tidak ada Gadget yang memenuhi kriteria")
     else:
         print("kategori tidak ditemukan")
 
