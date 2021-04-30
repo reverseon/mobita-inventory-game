@@ -774,7 +774,7 @@ def minta():
     if len(itemid) < 2 or not (itemid[0] in ['C'] and isnumber(itemid[1:]) and int(itemid[1:]) > 0):
         print("Format ID tidak Valid, id harus diawali C diikuti dengan integer lebih dari nol")
         return
-    elif itemid[0] == "C":
+    else:
         if not checkdup(itemid, 0, cdb):
             print("Tidak ada Consumables dengan ID tersebut")
         else:
@@ -805,9 +805,7 @@ def minta():
             chdb[2].append(cdb[0][considx])
             chdb[3].append(tanggal)
             chdb[4].append(str(jumlah))
-            print(f"Item {cdb[1][considx]} (x{jumlah}) telah berhasil diambil!")
-    else:
-        print("Tidak ada Consumables dengan ID tersebut")       
+            print(f"Item {cdb[1][considx]} (x{jumlah}) telah berhasil diambil!") 
 
 def riwayatpinjam(): # Gadget Borrow History (gbhdb)
     if credrole == "admin":
