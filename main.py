@@ -284,6 +284,8 @@ def isalphanumberlower(uname): # 18
     return True
 
 def isnumber(target): # 19
+    if len(target) == 0:
+        return False
     for i in target:
         check = ord(i)
         if (not (check >= 48 and check <= 57)):
