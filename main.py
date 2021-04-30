@@ -122,7 +122,6 @@ def chooser(choice): #5
             return
         if (yns == "Y" or yns == "y"):
             save()
-        print("Terima Kasih Telah Bermain bersama Kantong Ajaib! Wishing You A Great Adventure Ahead!")
         exitpr()
     elif choice == "riwayatpinjam":
         riwayatpinjam()
@@ -326,6 +325,7 @@ def isformatvalid(date): # 22
 def exitpr():
     global isExit
     isExit = not isExit
+    print("Terima Kasih Telah Bermain bersama Kantong Ajaib! Wishing You A Great Adventure Ahead!")
 
 def load():
     global savepath
@@ -949,7 +949,7 @@ def save():
     print(f"Data telah berhasil disimpan pada folder {savetarget}!")
 
 def helpf():
-    print("==========HELP==========")
+    print("=============HELP============")
     if credrole == "admin":
         print("register -- menambahkan user ke dalam database")
         print("tambahitem -- menambahkan Gadget atau Consumables ke database")
@@ -958,10 +958,27 @@ def helpf():
         print("riwayatpinjam -- melihat riwayat peminjaman gadget")
         print("riwayatkembali -- melihat riwayat pengembalian gadget")
         print("riwayatambil -- melihat riwayat pengambilan gadget")
-    else:
+    elif credrole == "user":
         print("pinjam -- meminjam gadget")
         print("kembalikan -- mengembalikan gadget yang dipinjam")
         print("minta -- meminta consumables")
+    else:
+        print("Untuk mengakses seluruh fungsi, silahkan login terlebih dahulu\n")
+        print("==========AKSES UMUM=========")
+        print("login -- untuk masuk ke dalam sistem")
+        print("=========AKSES ADMIN==========")
+        print("register -- menambahkan user ke dalam database")
+        print("tambahitem -- menambahkan Gadget atau Consumables ke database")
+        print("hapusitem -- menghapus Gadget atau Consumables dari database")
+        print("ubahjumlah -- menambahkan jumlah gadget atau consumables di database")
+        print("riwayatpinjam -- melihat riwayat peminjaman gadget")
+        print("riwayatkembali -- melihat riwayat pengembalian gadget")
+        print("riwayatambil -- melihat riwayat pengambilan gadget")
+        print("=========AKSES USER==========")
+        print("pinjam -- meminjam gadget")
+        print("kembalikan -- mengembalikan gadget yang dipinjam")
+        print("minta -- meminta consumables")
+        print("=====AKSES ADMIN & USER======")
     print("carirarity -- mencari gadget berdasarkan rarity")
     print("caritahun -- mencari gadget berdasarkan tahun ditemukan")
     print("save -- menyimpan database ke folder save")
@@ -970,8 +987,19 @@ def helpf():
 # MAIN DRIVER
 if __name__ == "__main__":
     load()
-    print("\nUntuk Menggunakan Kantong Ajaib, Silahkan Login Terlebih Dahulu\n")
-    login()
+    print("\nSelamat Datang di Kantong Ajaib")
+    while credrole == "" and not isExit:
+        print("\nSilahkan Masukkan Menu yang ingin dipilih, untuk list menu, ketik help\n")
+        print(">>>", end=" ")
+        choose = input()
+        if choose == "help":
+            helpf()
+        elif choose == "login":
+            login()
+        elif choose == "exit":
+            exitpr()
+        else:
+            print("Fungsi tidak tersedia, tidak ditemukan, atau tidak dapat diakses!")
     while not isExit:
         print("\nSilahkan Masukkan Menu yang ingin dipilih, untuk list menu, ketik help\n")
         print(">>>", end=" ")
