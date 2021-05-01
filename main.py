@@ -3,6 +3,7 @@ import sys
 import math
 import time
 import argparse
+import datetime
 
 # DEVELOPER NOTE
 # FILE .CSV HARUS PUNYA 1 ROW KOSONG DI AKHIR FILE 
@@ -37,13 +38,13 @@ credrole = ""
 # GLOBAL VAR
 
 savefoldername = "savefolder" # WHERE VARIOUS SAVE FOLDER ARE STORED
-savepath = os.path.dirname(os.path.realpath(__file__)) + "\\" + savefoldername # SAVE FOLDER THAT INCLUDES CSV ( WILL BE MODIFIED WHEN FIRST RUN IN LOAD() )
+savepath = os.path.join(os.path.dirname(os.path.realpath(__file__)), savefoldername) # SAVE FOLDER THAT INCLUDES CSV ( WILL BE MODIFIED WHEN FIRST RUN IN LOAD() )
 isExit = False # FOR EXIT
 targetfolder = "" # Tempat Folder Save
 
 # MISCELLANEOUS
 
-def strike(text):
+def strike(text): # 23
     result = ''
     for c in text:
         result = result + c + '\u0336'
@@ -51,10 +52,7 @@ def strike(text):
 
 # FUNDAMENTAL FUNCTION
 
-def na():
-    print("Not Available")
-
-def searchborrow(id, prop):
+def searchborrow(id, prop): #1
     index = 0
     for i in range(0, len(gbhdb[0])):
         if gbhdb[0][i] == id:
@@ -70,7 +68,7 @@ def searchborrow(id, prop):
     else:
         return gbhdb[5][index]
 
-def searchgadget(id, prop):
+def searchgadget(id, prop): #2
     index = 0
     for i in range(0, len(gdb[0])):
         if gdb[0][i] == id:
@@ -86,7 +84,7 @@ def searchgadget(id, prop):
     else:
         return gdb[5][index]
 
-def searchidcred(id, prop):
+def searchidcred(id, prop): #3
     index = 0
     for i in range(0, len(udb[0])):
         if udb[0][i] == id:
@@ -102,7 +100,7 @@ def searchidcred(id, prop):
     else:
         return udb[5][index]
 
-def searchcons(id, prop):
+def searchcons(id, prop): #4
     index = 0
     for i in range(0, len(cdb[0])):
         if cdb[0][i] == id:
@@ -116,15 +114,14 @@ def searchcons(id, prop):
     else:
         return cdb[4][index]
 
-def chooser(choice):
+def chooser(choice): #5
     if choice == "exit":
         yns = input("Apakah anda ingin save session ini? (Y/N): ")
-        if (yns != "Y" and yns != "N"):
-            print("Pilihan Hanya Y atau N (harus kapital)")
+        if (yns != "Y" and yns != "N" and yns != "n" and yns != "y"):
+            print("Pilihan Hanya Y/y atau N/n")
             return
-        if (yns == "Y"):
+        if (yns == "Y" or yns == "y"):
             save()
-        print("Terima Kasih Telah Bermain bersama Kantong Ajaib! Wishing You A Great Adventure Ahead!")
         exitpr()
     elif choice == "riwayatpinjam":
         riwayatpinjam()
@@ -157,30 +154,30 @@ def chooser(choice):
     else:
         print("Fungsi tidak tersedia atau tidak ditemukan!")
 
-def getindex(target, col, db):
+def getindex(target, col, db): # 6
     for i in range(0, len(db[col])):
         if db[col][i] == target:
             return i
     return -1
 
-def findcol(name): # FIND COLUMN OF CSV
+def findcol(name): # FIND COLUMN OF CSV # 7
     with open(savepath + "\\" + targetfolder + "\\" + name + '.csv') as f:
         return f.readline().count(";") + 1
 
-def frl(name): # FIRST ROW LENGTH
+def frl(name): # FIRST ROW LENGTH # 8
     with open(savepath + "\\" + targetfolder + "\\" + name + '.csv') as f:
         return len(f.readline())
 
-def file_len(name):
+def file_len(name): # 9
     with open(savepath + "\\" + targetfolder + "\\" + name + '.csv') as f:
         for i, l in enumerate(f):
             pass
     return i + 1
 
-def getdb(name, mode):
+def getdb(name, mode): # 10
     return open(savepath + "\\" + targetfolder + "\\" + name + '.csv', mode)
 
-def unload(name):
+def unload(name): # 11
     db = getdb(name, 'r+').read()
     row = file_len(name) - 1 # minus col name
     holder = [[""]*row for i in range(0, findcol(name))]
@@ -196,13 +193,13 @@ def unload(name):
             holder[cc][rc] += db[i]
     return holder
 
-def readargs():
+def readargs(): # 12
     parser = argparse.ArgumentParser()
     parser.add_argument("folder", help="nama folder load")
     args = parser.parse_args()
     return args.folder
 
-def whatfirst(date1, date2): # is Date 1 duluan than Date 2
+def whatfirst(date1, date2): # is Date 1 duluan than Date 2 # 13
     d1 = int(date1[0:2])
     m1 = int(date1[3:5])
     y1 = int(date1[6:])
@@ -224,7 +221,7 @@ def whatfirst(date1, date2): # is Date 1 duluan than Date 2
             else:
                 return False
 
-def gbhsort():
+def gbhsort(): # 14
     global gbhdb
     start = 0
     dblen = len(gbhdb[0])
@@ -241,24 +238,7 @@ def gbhsort():
             gbhdb[i][start] = temp
         start += 1
 
-def gbhsort():
-    global gbhdb
-    start = 0
-    dblen = len(gbhdb[0])
-    while (start != dblen-1):
-        localmin = gbhdb[3][start]
-        lmid = start
-        for i in range(start+1, dblen):
-            if whatfirst(localmin, gbhdb[3][i]):
-                localmin = gbhdb[3][i]
-                lmid = i
-        for i in range(0, findcol("gadget_borrow_history")):
-            temp = gbhdb[i][lmid]
-            gbhdb[i][lmid] = gbhdb[i][start]
-            gbhdb[i][start] = temp
-        start += 1
-
-def grhsort():
+def grhsort(): # 15
     global grhdb
     start = 0
     dblen = len(grhdb[0])
@@ -275,7 +255,7 @@ def grhsort():
             grhdb[i][start] = temp
         start += 1
 
-def chsort():
+def chsort(): # 16
     global chdb
     start = 0
     dblen = len(chdb[0])
@@ -292,92 +272,39 @@ def chsort():
             chdb[i][start] = temp
         start += 1
 
-def random():
+def random(): # 17
     return (8121 * int(time.time()) + 28411) % 134456;
 
-def isalphanumberlower(uname):
+def isalphanumberlower(uname): # 18
     for i in uname:
         check = ord(i)
         if (((not (check >= 48 and check <= 57)) and (not (check >= 97 and check <= 122))) or check == 32): # 48 - 57 number, 97 - 122 lowercase, 32 space
             return False
     return True
 
-def isnumber(target):
+def isnumber(target): # 19
+    if len(target) == 0:
+        return False
     for i in target:
         check = ord(i)
         if (not (check >= 48 and check <= 57)):
             return False
     return True
 
-def checkdup(val, col, arrdb):
+def checkdup(val, col, arrdb): # 20
     for i in arrdb[col]:
         if (val == i):
             return True
     return False
 
-def checkdir(name):
+def checkdir(name): # 21
     listdir = [a for a in os.listdir(savepath) if os.path.isdir(os.path.join(savepath, a))]
     for h in listdir:
         if h == name:
             return True
     return False
 
-def save():
-    savetarget = input("Masukkan nama folder penyimpanan: ")
-    if not checkdir(savetarget):
-        os.mkdir(savepath + "\\" + savetarget)
-    # USER CSV
-    holderfile = open(savepath + "\\" + savetarget + "\\" + 'user.csv', 'w')
-    holderfile.write("id;username;nama;alamat;password;role\n")
-    for i in range(0, len(udb[0])):
-        for j in range(0, 5):
-            holderfile.write(udb[j][i] + ";")
-        holderfile.write(udb[5][i])
-        holderfile.write("\n")
-    # GADGET CSV
-    holderfile = open(savepath + "\\" + savetarget + "\\" + 'gadget.csv', 'w')
-    holderfile.write("id;nama;deskripsi;jumlah;rarity;tahun_ditemukan\n")
-    for i in range(0, len(gdb[0])):
-        for j in range(0, 5):
-            holderfile.write(gdb[j][i] + ";")
-        holderfile.write(gdb[5][i])
-        holderfile.write("\n")    
-    # CONSUMABLE CSV
-    holderfile = open(savepath + "\\" + savetarget + "\\" + 'consumable.csv', 'w')
-    holderfile.write("id;nama;deskripsi;jumlah;rarity\n")
-    for i in range(0, len(cdb[0])):
-        for j in range(0, 4):
-            holderfile.write(cdb[j][i] + ";")
-        holderfile.write(cdb[4][i])
-        holderfile.write("\n")
-    # GADGET RETURN HISTORY
-    holderfile = open(savepath + "\\" + savetarget + "\\" + 'gadget_return_history.csv', 'w')
-    holderfile.write("id;id_peminjaman;tanggal_pengembalian\n")
-    for i in range(0, len(grhdb[0])):
-        for j in range(0, 2):
-            holderfile.write(grhdb[j][i] + ";")
-        holderfile.write(grhdb[2][i])
-        holderfile.write("\n")
-    # GADGET BORROW HISTORY
-    holderfile = open(savepath + "\\" + savetarget + "\\" + 'gadget_borrow_history.csv', 'w')
-    holderfile.write("id;id_peminjam;id_gadget;tanggal_peminjaman;jumlah;is_returned\n")
-    for i in range(0, len(gbhdb[0])):
-        for j in range(0, 5):
-            holderfile.write(gbhdb[j][i] + ";")
-        holderfile.write(gbhdb[5][i])
-        holderfile.write("\n")
-    # CONSUMABLE HISTORY CSV
-    holderfile = open(savepath + "\\" + savetarget + "\\" + 'consumable_history.csv', 'w')
-    holderfile.write("id;id_pengambil;id_consumable;tanggal_pengambilan;jumlah\n")
-    for i in range(0, len(chdb[0])):
-        for j in range(0, 4):
-            holderfile.write(chdb[j][i] + ";")
-        holderfile.write(chdb[4][i])
-        holderfile.write("\n")
-    print("Saving...")
-    print(f"Data telah berhasil disimpan pada folder {savetarget}!")
-
-def isformatvalid(date):
+def isformatvalid(date): # 22
     if len(date) == 10:
         dd = date[0:2]
         mm = date[3:5]
@@ -385,9 +312,11 @@ def isformatvalid(date):
         if (not isnumber(dd) or not isnumber(mm) or not isnumber(yy)):
             return False
         else:
-            if ((1 > int(dd) or 31 < int(dd)) or (1 > int(mm) or 12 < int(mm))):
+            try:
+                datetime.datetime(year=int(yy), month=int(mm), day=int(dd))
+                return True
+            except:
                 return False
-            return True
     else:
         return False
 
@@ -396,6 +325,7 @@ def isformatvalid(date):
 def exitpr():
     global isExit
     isExit = not isExit
+    print("Terima Kasih Telah Bermain bersama Kantong Ajaib! Wishing You A Great Adventure Ahead!")
 
 def load():
     global savepath
@@ -413,7 +343,7 @@ def load():
     global lrgrhdb 
     global lrchdb 
     targetfolder = readargs()
-    if not (os.path.exists(savepath)):
+    if not (os.path.exists(os.path.join(savepath, targetfolder))):
         print("File Save Tidak Tersedia, Silahkan Ulangi Program dengan Argumen yang Benar")
         exit() # EOF 1
     udb = unload("user")
@@ -477,6 +407,9 @@ def register():
             idn = str(random())
     print("Masukan nama:", end=" ")
     nama = input()
+    if nama == "":
+        print("Nama tidak boleh kosong")
+        return
     print("Masukan username:", end=" ")
     uname = input()
     while (not (isalphanumberlower(uname) and (not checkdup(uname, 1, udb) and (len(uname) <= 16 and len(uname) > 0)))):
@@ -484,8 +417,13 @@ def register():
             uname = input()
     print("Masukan password:", end=" ")
     pw = input()
+    if pw == "":
+        print("Password tidak boleh kosong")
+        return
     print("Masukan alamat:", end=" ")
     alamat = input()
+    if alamat == "":
+        print("Alamat tidak boleh kosong")
     udb[0].append(idn)
     udb[1].append(uname)
     udb[2].append(nama)
@@ -524,57 +462,80 @@ def caritahun():
     kategori = input()
     print("\nHasil Pencarian:", end="\n\n")
     if (kategori == "="):
+        found = False
         for i in range(0, len(gdb[4])):
             if (int(gdb[5][i]) == int(tahun)):
+                found = True
                 print("Nama: " + gdb[1][i])
                 print("Deskripsi: " + gdb[2][i])
                 print("Jumlah: " + gdb[3][i] + " buah")
                 print("Rarity: " + gdb[4][i])
                 print("Tahun Ditemukan: " + gdb[5][i])
                 print()
+        if not found:
+            print("Tidak ada Gadget yang memenuhi kriteria")
     elif (kategori == ">"):
+        found = False
         for i in range(0, len(gdb[4])):
             if (int(gdb[5][i]) > int(tahun)):
+                found = True
                 print("Nama: " + gdb[1][i])
                 print("Deskripsi: " + gdb[2][i])
                 print("Jumlah: " + gdb[3][i] + " buah")
                 print("Rarity: " + gdb[4][i])
                 print("Tahun Ditemukan: " + gdb[5][i])
                 print()
+        if not found:
+            print("Tidak ada Gadget yang memenuhi kriteria")
     elif (kategori == "<"):
+        found = False
         for i in range(0, len(gdb[4])):
             if (int(gdb[5][i]) < int(tahun)):
+                found = True
                 print("Nama: " + gdb[1][i])
                 print("Deskripsi: " + gdb[2][i])
                 print("Jumlah: " + gdb[3][i] + " buah")
                 print("Rarity: " + gdb[4][i])
                 print("Tahun Ditemukan: " + gdb[5][i])
                 print()
+        if not found:
+            print("Tidak ada Gadget yang memenuhi kriteria")
     elif (kategori == "<="):
+        found = False
         for i in range(0, len(gdb[4])):
             if (int(gdb[5][i]) <= int(tahun)):
+                found = True
                 print("Nama: " + gdb[1][i])
                 print("Deskripsi: " + gdb[2][i])
                 print("Jumlah: " + gdb[3][i] + " buah")
                 print("Rarity: " + gdb[4][i])
                 print("Tahun Ditemukan: " + gdb[5][i])
                 print()
+        if not found:
+            print("Tidak ada Gadget yang memenuhi kriteria")
     elif (kategori == ">="):
+        found = False
         for i in range(0, len(gdb[4])):
             if (int(gdb[5][i]) >= int(tahun)):
+                found = True
                 print("Nama: " + gdb[1][i])
                 print("Deskripsi: " + gdb[2][i])
                 print("Jumlah: " + gdb[3][i] + " buah")
                 print("Rarity: " + gdb[4][i])
                 print("Tahun Ditemukan: " + gdb[5][i])
                 print()
+        if not found:
+            print("Tidak ada Gadget yang memenuhi kriteria")
     else:
         print("kategori tidak ditemukan")
 
 def tambahitem():
     if credrole == "admin":
         itemid = input("Masukkan ID: ")
-        if itemid[0] == 'G':
+        if len(itemid) < 2 or not (itemid[0] in ['G', 'C'] and isnumber(itemid[1:]) and int(itemid[1:]) > 0):
+            print("Format ID tidak Valid, id harus diawali G atau C diikuti dengan integer lebih dari nol")
+            return
+        elif itemid[0] == 'G':
             if checkdup(itemid, 0, gdb):
                 print("Gagal menambahkan item karena ID sudah ada")
                 return
@@ -605,7 +566,7 @@ def tambahitem():
             gdb[4].append(rarity)
             gdb[5].append(tahun)
             print("Item telah berhasil ditambahkan ke database")
-        elif itemid[0] == 'C':
+        else:
             if checkdup(itemid, 0, cdb):
                 print("Gagal menambahkan item karena ID sudah ada")
                 return
@@ -630,9 +591,7 @@ def tambahitem():
             cdb[2].append(deskripsi)
             cdb[3].append(jumlah)
             cdb[4].append(rarity)
-            print("Item telah berhasil ditambahkan ke database")
-        else:
-            print("Gagal Menambahkan Item karena ID tidak valid")    
+            print("Item telah berhasil ditambahkan ke database") 
     else:
         print("Maaf, Fitur Ini Hanya Bisa Diakses oleh Admin")
 
@@ -641,45 +600,49 @@ def hapusitem():
         print("Maaf, fitur ini hanya bisa diakses oleh admin, terima kasih.")
         return
     itemid = input("Masukkan Item ID: ")
-    if itemid[0] == "G":
+    if len(itemid) < 2 or not (itemid[0] in ['G', 'C'] and isnumber(itemid[1:]) and int(itemid[1:]) > 0):
+        print("Format ID tidak Valid, id harus diawali G atau C diikuti dengan integer lebih dari nol")
+        return
+    elif itemid[0] == "G":
         if not checkdup(itemid, 0, gdb):
              print("Tidak ada Item dengan ID tersebut")
         else:
             index = getindex(itemid, 0, gdb)
             print(f"Apakah anda yakin ingin menghapus {searchgadget(itemid, 'nama')} (Y/N)? ")
             choose = input()
-            if choose == 'Y':
+            if (choose == 'Y' or choose == "y"):
                 for i in range(0, len(gdb)):
                     gdb[i].pop(index)
                 print("Item berhasil dihapus dari database")
-            elif choose == "N":
+            elif (choose == "N" or choose == "n"):
                 print("Proses Dibatalkan")
             else:
-                print("Pilihan tidak valid, hanya tersedia Y dan N (harus kapital)")
-    elif itemid[0] == "C":
+                print("Pilihan tidak valid, hanya tersedia Y/y dan N/n")
+    else:
         if not checkdup(itemid, 0, cdb):
              print("Tidak ada Item dengan ID tersebut")
         else:
             index = getindex(itemid, 0, cdb)
             print(f"Apakah anda yakin ingin menghapus {searchcons(itemid, 'nama')} (Y/N)? ")
             choose = input()
-            if choose == 'Y':
+            if (choose == 'Y' or choose == "y"):
                 for i in range(0, len(cdb)):
                     cdb[i].pop(index)
                 print("Item berhasil dihapus dari database")
-            elif choose == "N":
+            elif (choose == "N" or choose == "n"):
                 print("Proses Dibatalkan")
             else:
-                print("Pilihan tidak valid, hanya tersedia Y dan N (harus kapital)")
-    else:
-        print("Tidak ada Item dengan ID tersebut")
+                print("Pilihan tidak valid, hanya tersedia Y/y dan N/n")
 
 def ubahjumlah():
     if (credrole == "user"):
         print("Maaf, fitur ini hanya bisa diakses oleh admin, terima kasih.")
         return
     itemid = input("Masukkan Item ID: ")
-    if itemid[0] == "G":
+    if len(itemid) < 2 or not (itemid[0] in ['G', 'C'] and isnumber(itemid[1:]) and int(itemid[1:]) > 0):
+        print("Format ID tidak Valid, id harus diawali G atau C diikuti dengan integer lebih dari nol")
+        return
+    elif itemid[0] == "G":
         if not checkdup(itemid, 0, gdb):
              print("Tidak ada Item dengan ID tersebut")
         else:
@@ -697,7 +660,7 @@ def ubahjumlah():
             else:
                 print(f"{abs(alter)} {searchgadget(itemid, 'nama')} gagal dibuang karena stok kurang.")
                 print(f"Stok sekarang: {gdb[3][index]}")
-    elif itemid[0] == "C":
+    else:
         if not checkdup(itemid, 0, cdb):
              print("Tidak ada Item dengan ID tersebut")
         else:
@@ -715,15 +678,16 @@ def ubahjumlah():
             else:
                 print(f"{abs(alter)} {searchcons(itemid, 'nama')} gagal dibuang karena stok kurang.")
                 print(f"Stok sekarang: {cdb[3][index]}")
-    else:
-        print("Tidak ada Item dengan ID tersebut")
 
 def pinjam():
     if (credrole == "admin"):
         print("Maaf, fitur ini hanya bisa diakses oleh user, terima kasih.")
         return
     itemid = input("Masukkan Item ID: ")
-    if itemid[0] == "G":
+    if len(itemid) < 2 or not (itemid[0] in ['G'] and isnumber(itemid[1:]) and int(itemid[1:]) > 0):
+        print("Format ID tidak Valid, id harus diawali G diikuti dengan integer lebih dari nol")
+        return
+    else:
         if not checkdup(itemid, 0, gdb):
              print("Tidak ada Item dengan ID tersebut")
         else:
@@ -737,7 +701,7 @@ def pinjam():
             jumlah = int(searchgadget(itemid, "jumlah"))
             alter = input("Masukkan Jumlah: ")
             if (not isnumber(alter)):
-                print("Jumlah Peminjaman harus integer dan lebih dari nol")
+                print("Jumlah Peminjaman harus integer dan lebih dari atau sama dengan nol")
                 return
             alter = int(alter)
             if (jumlah - alter >= 0):
@@ -751,8 +715,6 @@ def pinjam():
                 gbhdb[5].append("false")
             else:
                 print(f"Item {searchgadget(itemid, 'nama')} (x{alter}) gagal dipinjam karena stok kurang.")
-    else:
-        print("Tidak ada Item dengan ID tersebut (Consumables tidak dapat dipinjam)")    
 
 def kembalikan():
     if (credrole == "admin"):
@@ -809,7 +771,10 @@ def minta():
         print("Maaf, fitur ini hanya bisa diakses oleh user, terima kasih.")
         return
     itemid = input("Masukkan Item ID: ")
-    if itemid[0] == "C":
+    if len(itemid) < 2 or not (itemid[0] in ['C'] and isnumber(itemid[1:]) and int(itemid[1:]) > 0):
+        print("Format ID tidak Valid, id harus diawali C diikuti dengan integer lebih dari nol")
+        return
+    else:
         if not checkdup(itemid, 0, cdb):
             print("Tidak ada Consumables dengan ID tersebut")
         else:
@@ -840,13 +805,11 @@ def minta():
             chdb[2].append(cdb[0][considx])
             chdb[3].append(tanggal)
             chdb[4].append(str(jumlah))
-            print(f"Item {cdb[1][considx]} (x{jumlah}) telah berhasil diambil!")
-    else:
-        print("Tidak ada Consumables dengan ID tersebut (Gadget tidak dapat diminta)")       
+            print(f"Item {cdb[1][considx]} (x{jumlah}) telah berhasil diambil!") 
 
 def riwayatpinjam(): # Gadget Borrow History (gbhdb)
     if credrole == "admin":
-        if (grhdb[0] == []):
+        if (gbhdb[0] == []):
             print("Tidak ada data yang dapat ditampilkan")
             return
         gbhsort()
@@ -860,7 +823,6 @@ def riwayatpinjam(): # Gadget Borrow History (gbhdb)
                 print("Nama Gadget:", searchgadget(gbhdb[2][i], "nama"))
                 print("Tanggal Pengambilan:", gbhdb[3][i])
                 print("Jumlah:", gbhdb[4][i])
-                holder = i
             print()
             print(f"b for back, n for next, any string for exit")
             print(">>>", end=" ")
@@ -889,7 +851,6 @@ def riwayatkembali(): # GADGET RETURN HISTORY (grhdb)
                 print("Nama Peminjam:", searchidcred(searchborrow(grhdb[1][i], "id_peminjam"), "nama"))
                 print("Nama Gadget:", searchgadget(searchborrow(grhdb[1][i], "id_gadget"), "nama"))
                 print("Tanggal Pengembalian:", grhdb[2][i])
-                holder = i
             print()
             print(f"b for back, n for next, any string for exit")
             print(">>>", end=" ")
@@ -905,7 +866,7 @@ def riwayatkembali(): # GADGET RETURN HISTORY (grhdb)
 
 def riwayatambil(): # CONSUMABLE HISTORY (chdb)
     if credrole == "admin":
-        if (grhdb[0] == []):
+        if (chdb[0] == []):
             print("Tidak ada data yang dapat ditampilkan")
             return
         chsort()
@@ -919,7 +880,6 @@ def riwayatambil(): # CONSUMABLE HISTORY (chdb)
                 print("Nama Consumable:", searchcons(chdb[2][i], "nama"))
                 print("Tanggal Peminjaman:", chdb[3][i])
                 print("Jumlah:", chdb[4][i])
-                holder = i
             print()
             print(f"b for back, n for next, any string for exit")
             print(">>>", end=" ")
@@ -933,8 +893,63 @@ def riwayatambil(): # CONSUMABLE HISTORY (chdb)
     else:
         print("Maaf, Fitur Ini Hanya Bisa Diakses oleh Admin")
 
+def save():
+    savetarget = input("Masukkan nama folder penyimpanan: ")
+    if not checkdir(savetarget):
+        os.mkdir(savepath + "\\" + savetarget)
+    # USER CSV
+    holderfile = open(savepath + "\\" + savetarget + "\\" + 'user.csv', 'w')
+    holderfile.write("id;username;nama;alamat;password;role\n")
+    for i in range(0, len(udb[0])):
+        for j in range(0, 5):
+            holderfile.write(udb[j][i] + ";")
+        holderfile.write(udb[5][i])
+        holderfile.write("\n")
+    # GADGET CSV
+    holderfile = open(savepath + "\\" + savetarget + "\\" + 'gadget.csv', 'w')
+    holderfile.write("id;nama;deskripsi;jumlah;rarity;tahun_ditemukan\n")
+    for i in range(0, len(gdb[0])):
+        for j in range(0, 5):
+            holderfile.write(gdb[j][i] + ";")
+        holderfile.write(gdb[5][i])
+        holderfile.write("\n")    
+    # CONSUMABLE CSV
+    holderfile = open(savepath + "\\" + savetarget + "\\" + 'consumable.csv', 'w')
+    holderfile.write("id;nama;deskripsi;jumlah;rarity\n")
+    for i in range(0, len(cdb[0])):
+        for j in range(0, 4):
+            holderfile.write(cdb[j][i] + ";")
+        holderfile.write(cdb[4][i])
+        holderfile.write("\n")
+    # GADGET RETURN HISTORY
+    holderfile = open(savepath + "\\" + savetarget + "\\" + 'gadget_return_history.csv', 'w')
+    holderfile.write("id;id_peminjaman;tanggal_pengembalian\n")
+    for i in range(0, len(grhdb[0])):
+        for j in range(0, 2):
+            holderfile.write(grhdb[j][i] + ";")
+        holderfile.write(grhdb[2][i])
+        holderfile.write("\n")
+    # GADGET BORROW HISTORY
+    holderfile = open(savepath + "\\" + savetarget + "\\" + 'gadget_borrow_history.csv', 'w')
+    holderfile.write("id;id_peminjam;id_gadget;tanggal_peminjaman;jumlah;is_returned\n")
+    for i in range(0, len(gbhdb[0])):
+        for j in range(0, 5):
+            holderfile.write(gbhdb[j][i] + ";")
+        holderfile.write(gbhdb[5][i])
+        holderfile.write("\n")
+    # CONSUMABLE HISTORY CSV
+    holderfile = open(savepath + "\\" + savetarget + "\\" + 'consumable_history.csv', 'w')
+    holderfile.write("id;id_pengambil;id_consumable;tanggal_pengambilan;jumlah\n")
+    for i in range(0, len(chdb[0])):
+        for j in range(0, 4):
+            holderfile.write(chdb[j][i] + ";")
+        holderfile.write(chdb[4][i])
+        holderfile.write("\n")
+    print("Saving...")
+    print(f"Data telah berhasil disimpan pada folder {savetarget}!")
+
 def helpf():
-    print("==========HELP==========")
+    print("=============HELP============")
     if credrole == "admin":
         print("register -- menambahkan user ke dalam database")
         print("tambahitem -- menambahkan Gadget atau Consumables ke database")
@@ -943,10 +958,27 @@ def helpf():
         print("riwayatpinjam -- melihat riwayat peminjaman gadget")
         print("riwayatkembali -- melihat riwayat pengembalian gadget")
         print("riwayatambil -- melihat riwayat pengambilan gadget")
-    else:
+    elif credrole == "user":
         print("pinjam -- meminjam gadget")
         print("kembalikan -- mengembalikan gadget yang dipinjam")
         print("minta -- meminta consumables")
+    else:
+        print("Untuk mengakses seluruh fungsi, silahkan login terlebih dahulu\n")
+        print("==========AKSES UMUM=========")
+        print("login -- untuk masuk ke dalam sistem")
+        print("=========AKSES ADMIN==========")
+        print("register -- menambahkan user ke dalam database")
+        print("tambahitem -- menambahkan Gadget atau Consumables ke database")
+        print("hapusitem -- menghapus Gadget atau Consumables dari database")
+        print("ubahjumlah -- menambahkan jumlah gadget atau consumables di database")
+        print("riwayatpinjam -- melihat riwayat peminjaman gadget")
+        print("riwayatkembali -- melihat riwayat pengembalian gadget")
+        print("riwayatambil -- melihat riwayat pengambilan gadget")
+        print("=========AKSES USER==========")
+        print("pinjam -- meminjam gadget")
+        print("kembalikan -- mengembalikan gadget yang dipinjam")
+        print("minta -- meminta consumables")
+        print("=====AKSES ADMIN & USER======")
     print("carirarity -- mencari gadget berdasarkan rarity")
     print("caritahun -- mencari gadget berdasarkan tahun ditemukan")
     print("save -- menyimpan database ke folder save")
@@ -955,8 +987,19 @@ def helpf():
 # MAIN DRIVER
 if __name__ == "__main__":
     load()
-    print("\nUntuk Menggunakan Kantong Ajaib, Silahkan Login Terlebih Dahulu\n")
-    login()
+    print("\nSelamat Datang di Kantong Ajaib")
+    while credrole == "" and not isExit:
+        print("\nSilahkan Masukkan Menu yang ingin dipilih, untuk list menu, ketik help\n")
+        print(">>>", end=" ")
+        choose = input()
+        if choose == "help":
+            helpf()
+        elif choose == "login":
+            login()
+        elif choose == "exit":
+            exitpr()
+        else:
+            print("Fungsi tidak tersedia, tidak ditemukan, atau tidak dapat diakses!")
     while not isExit:
         print("\nSilahkan Masukkan Menu yang ingin dipilih, untuk list menu, ketik help\n")
         print(">>>", end=" ")
