@@ -4,4 +4,6 @@ C8;Gambling Potion;Luck++;0;A
 C1;Hyperpotion;Restore HP +200;100;A
 C2;Grad Potion;Restore HP +50;20;B
 C3;MP Potion;Restore Mana +200;0;A
-C4;EXTRA MP POTION;Restore MP Potion +400;2;S
+C4;EXTRA MP POTION;Restore MP Potion +400;1;S
+C6;TPB Potion;Increase GPA;20;S
+C7;Chemistry;Increase GG;20;S

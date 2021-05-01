@@ -532,7 +532,7 @@ def caritahun():
 def tambahitem():
     if credrole == "admin":
         itemid = input("Masukkan ID: ")
-        if len(itemid) < 2 or not (itemid[0] in ['G', 'C'] and len(itemid) == 1 and isnumber(itemid[1:]) and int(itemid[1:]) > 0):
+        if len(itemid) < 2 or not (itemid[0] in ['G', 'C'] and isnumber(itemid[1:]) and int(itemid[1:]) > 0):
             print("Format ID tidak Valid, id harus diawali G atau C diikuti dengan integer lebih dari nol")
             return
         elif itemid[0] == 'G':
