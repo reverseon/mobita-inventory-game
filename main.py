@@ -649,7 +649,7 @@ def ubahjumlah():
             index = getindex(itemid, 0, gdb)
             jumlah = int(searchgadget(itemid, "jumlah"))
             alter = input("Masukkan Jumlah: ")
-            if (not isnumber(alter[1::] if alter[0] == "-" else alter)):
+            if (len(alter) == 0 or not isnumber(alter[1::] if alter[0] == "-" else alter)):
                 print("Jumlah alteration harus integer")
                 return
             alter = int(alter)
@@ -667,7 +667,7 @@ def ubahjumlah():
             index = getindex(itemid, 0, cdb)
             jumlah = int(searchcons(itemid, "jumlah"))
             alter = input("Masukkan Jumlah: ")
-            if (not isnumber(alter[1::] if alter[0] == "-" else alter)):
+            if (len(alter) == 0 or not isnumber(alter[1::] if alter[0] == "-" else alter)):
                 print("Jumlah alteration harus integer")
                 return
             alter = int(alter)
