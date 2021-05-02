@@ -734,7 +734,7 @@ def kembalikan():
     if (not isnumber(no)):
         print("Nomor tidak valid, pastikan hanya memasukkan opsi yang tersedia")
         return
-    elif int(no) > counter:
+    elif int(no) > counter or int(no) < 1:
         print("Nomor tidak valid, pastikan hanya memasukkan opsi yang tersedia")
         return
     no = int(no)
