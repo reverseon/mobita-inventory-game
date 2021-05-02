@@ -734,14 +734,14 @@ def kembalikan():
     if (not isnumber(no)):
         print("Nomor tidak valid, pastikan hanya memasukkan opsi yang tersedia")
         return
-    elif int(no) > counter:
+    elif int(no) > counter or int(no) < 1:
         print("Nomor tidak valid, pastikan hanya memasukkan opsi yang tersedia")
         return
     no = int(no)
     idx = getindex(chid[no-1], 0, gbhdb)
     jumlah = input("Jumlah pengembalian: ")
-    if (not isnumber(jumlah)):
-        print("Jumlah tidak valid, jumlah hanya bisa integer positif dan nol")
+    if (not isnumber(jumlah) or int(jumlah) < 1):
+        print("Jumlah tidak valid, jumlah hanya bisa integer positif")
         return
     jumlah = int(jumlah)
     if (jumlah <= int(gbhdb[4][idx])):
