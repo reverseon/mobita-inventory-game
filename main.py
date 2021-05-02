@@ -548,8 +548,8 @@ def tambahitem():
                 print("Deskripsi tidak valid, deskripsi tidak boleh kosong.")
                 return
             jumlah = input("Masukkan jumlah: ")
-            if (not isnumber(jumlah) or jumlah == ""):
-                print("Jumlah tidak valid. jumlah tidak boleh kosong dan hanya masukkan angka integer")
+            if (not isnumber(jumlah) or jumlah == "" or int(jumlah) < 1):
+                print("Jumlah tidak valid. jumlah tidak boleh kosong dan hanya masukkan angka integer lebih dari nol")
                 return
             rarity = input("Masukkan rarity: ")
             if (not (rarity == "C" or rarity == "B" or rarity == "A" or rarity == "S")):
@@ -579,8 +579,8 @@ def tambahitem():
                 print("Deskripsi tidak valid, deskripsi tidak boleh kosong.")
                 return
             jumlah = input("Masukkan jumlah: ")
-            if (not isnumber(jumlah) or jumlah == ""):
-                print("Jumlah tidak valid. jumlah tidak boleh kosong dan hanya masukkan angka integer")
+            if (not isnumber(jumlah) or jumlah == "" or int(jumlah) < 1):
+                print("Jumlah tidak valid. jumlah tidak boleh kosong dan hanya masukkan angka integer lebih dari nol")
                 return
             rarity = input("Masukkan rarity: ")
             if (not (rarity == "C" or rarity == "B" or rarity == "A" or rarity == "S")):
@@ -649,8 +649,8 @@ def ubahjumlah():
             index = getindex(itemid, 0, gdb)
             jumlah = int(searchgadget(itemid, "jumlah"))
             alter = input("Masukkan Jumlah: ")
-            if (len(alter) == 0 or not isnumber(alter[1::] if alter[0] == "-" else alter)):
-                print("Jumlah alteration harus integer")
+            if (len(alter) == 0 or not isnumber(alter[1::] if alter[0] == "-" else alter) or int(alter) < 1):
+                print("Jumlah alteration harus integer lebih dari nol")
                 return
             alter = int(alter)
             if (jumlah + alter >= 0):
@@ -667,8 +667,8 @@ def ubahjumlah():
             index = getindex(itemid, 0, cdb)
             jumlah = int(searchcons(itemid, "jumlah"))
             alter = input("Masukkan Jumlah: ")
-            if (len(alter) == 0 or not isnumber(alter[1::] if alter[0] == "-" else alter)):
-                print("Jumlah alteration harus integer")
+            if (len(alter) == 0 or not isnumber(alter[1::] if alter[0] == "-" else alter) or int(alter) < 1):
+                print("Jumlah alteration harus integer lebih dari nol")
                 return
             alter = int(alter)
             if (jumlah + alter >= 0):
@@ -700,8 +700,8 @@ def pinjam():
             index = getindex(itemid, 0, gdb)
             jumlah = int(searchgadget(itemid, "jumlah"))
             alter = input("Masukkan Jumlah: ")
-            if (not isnumber(alter)):
-                print("Jumlah Peminjaman harus integer dan lebih dari atau sama dengan nol")
+            if (not isnumber(alter) or int(alter) < 1):
+                print("Jumlah Peminjaman harus integer dan lebih dari nol")
                 return
             alter = int(alter)
             if (jumlah - alter >= 0):
@@ -784,8 +784,8 @@ def minta():
                 print("Consumables Kosong, Silahkan coba consumables lain")
                 return
             jumlah = input("Masukkan Jumlah: ")
-            if (not isnumber(jumlah)):
-                print("Jumlah tidak valid, pastikan jumlah adalah angka integer positif atau nol")
+            if (not isnumber(jumlah) or int(jumlah) < 1):
+                print("Jumlah tidak valid, pastikan jumlah adalah angka integer positif")
                 return
             jumlah = int(jumlah)
             if jumlah > stock:
