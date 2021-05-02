@@ -273,7 +273,7 @@ def chsort(): # 16
         start += 1
 
 def random(): # 17
-    return (8121 * int(time.time()) + 28411) % 134456;
+    return (8121 * int(time.time()) + 28411) % 134456
 
 def isalphanumberlower(uname): # 18
     for i in uname:
@@ -424,6 +424,7 @@ def register():
     alamat = input()
     if alamat == "":
         print("Alamat tidak boleh kosong")
+        return
     udb[0].append(idn)
     udb[1].append(uname)
     udb[2].append(nama)
